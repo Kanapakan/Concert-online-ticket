@@ -46,9 +46,9 @@ const addbook = Joi.object({
 const concertOwner = async (req, res, next) => {
      const [[concert]] = await pool.query('SELECT * FROM concerts WHERE concert_id=?', [req.params.id])
    
-     if (this.concert.user_user_id !== req.user.user_id) {
-       return res.status(403).send('You do not have permission to perform this action')
-     }
+    //  if (this.concert.user_user_id !== req.user.user_id) {
+    //    return res.status(403).send('You do not have permission to perform this action')
+    //  }
      next()
    }
 
