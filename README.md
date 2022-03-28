@@ -1,5 +1,5 @@
 # Major
 
-Hello Thailand
+Frontend : npm run serve
 
-Hello World
+Backend : 
