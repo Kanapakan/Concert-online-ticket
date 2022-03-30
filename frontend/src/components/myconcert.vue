@@ -97,6 +97,8 @@
                             <th scope="col">วันเวลา <br> ที่ทำรายการ</th>
                             <th scope="col">หลักฐาน <br> การโอนเงิน</th>
                             <th scope="col">การดำเนินการ</th>
+                            <th scope="col">สถานะ</th>
+
                         </tr>
                     </thead>
                     <tbody>
