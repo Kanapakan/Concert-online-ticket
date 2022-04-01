@@ -1,5 +1,18 @@
 # Major
 
-Frontend : npm run serve
+## Frontend
+Project setup
+```
+npm install
+```
 
-Backend: nodemon index.js
+Compiles and hot-reloads for development
+```
+npm run serve
+```
+
+## Backend
+To run server:
+```
+nodemon index.js
+```
