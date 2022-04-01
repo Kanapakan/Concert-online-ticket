@@ -1,4 +1,4 @@
-# Major
+# Concert Online Ticket
 
 ## Frontend
 Project setup
