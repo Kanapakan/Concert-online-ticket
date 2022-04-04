@@ -36,15 +36,18 @@ npm run serve
 ```
 
 ***
-# Desgn
-![image](https://i.imgur.com/IPihOm5.png)
-![image](https://i.imgur.com/X58Lxvu.png)
-![image](https://i.imgur.com/xyc8EAx.png)
-![image](https://i.imgur.com/Ile3bFl.png)
-![image](https://i.imgur.com/xMm7cMH.png)
-![image](https://i.imgur.com/3B3dwv8.png)
-![image](https://i.imgur.com/8xNKyML.png)
-![image](https://i.imgur.com/N0imsz3.png)
-![image](https://i.imgur.com/hXs9yEI.png)
-![image](https://i.imgur.com/vpTMmKH.png)
-![image](https://i.imgur.com/f956M3L.png)
+# Design
+<p align="center">
+  <img width="700" alt="Screen Shot 2565-01-23 at 21 58 38" src="https://i.imgur.com/IPihOm5.png">
+  <img width="700" alt="Screen Shot 2565-01-23 at 21 58 38" src="https://i.imgur.com/X58Lxvu.png">
+  <img width="700" alt="Screen Shot 2565-01-23 at 21 58 38" src="https://i.imgur.com/xyc8EAx.png">
+  <img width="700" alt="Screen Shot 2565-01-23 at 21 58 38" src="https://i.imgur.com/Ile3bFl.png">
+  <img width="700" alt="Screen Shot 2565-01-23 at 21 58 38" src="https://i.imgur.com/xMm7cMH.png">
+  <img width="700" alt="Screen Shot 2565-01-23 at 21 58 38" src="https://i.imgur.com/3B3dwv8.png0">
+  <img width="700" alt="Screen Shot 2565-01-23 at 21 58 38" src="https://i.imgur.com/8xNKyML.png">
+  <img width="700" alt="Screen Shot 2565-01-23 at 21 58 38" src="https://i.imgur.com/N0imsz3.png">
+  <img width="700" alt="Screen Shot 2565-01-23 at 21 58 38" src="https://i.imgur.com/hXs9yEI.png">
+  <img width="700" alt="Screen Shot 2565-01-23 at 21 58 38" src="https://i.imgur.com/vpTMmKH.png">
+  <img width="700" alt="Screen Shot 2565-01-23 at 21 58 38" src="https://i.imgur.com/f956M3L.png">
+</p>
+
