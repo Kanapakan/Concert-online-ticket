@@ -1,5 +1,6 @@
 create database concert;
 use concert;
+
 create table `location` (
 	`address_id` int(20) unsigned not null,
     `address_name` varchar(255),
