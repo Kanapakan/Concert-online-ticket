@@ -1,3 +1,5 @@
+create database concert;
+use concert;
 create table `location` (
 	`address_id` int(20) unsigned not null,
     `address_name` varchar(255),
@@ -137,7 +139,7 @@ INSERT INTO `users` (`user_id`, `user`, `fname`, `lname`, `address`, `phone`, `e
 ('2', 'cus', 'chanakarn', 'prasomkeaw', 'กรุงเทพมหานคร', '093429042', 'chanakarn@hotmail.com', 'Password1'),
 ('3', 'sell', 'chanakan', 'thudhayanukul', 'กรุงเทพมหานคร', '0894039002', 'chanakan@gmail.com', 'Password1');
 
-INSERT INTO `concerts` (`concert_id`, `concert_title`, `concert_amountseat`, `concert_address`, `concert_desc`, `concert_status`, `concert_showtime`, `buy_available`, `user_user_id`, `address_id`, `price`) VALUES
+INSERT INTO `concerts` (`concert_id`, `concert_title`, `concert_address`, `concert_desc`, `concert_status`, `concert_showtime`, `buy_available`, `user_user_id`, `address_id`, `price`) VALUES
 ('1', 'Three man down', 'โรงแรมคาร์ลตัน กรุงเทพฯ สุขุมวิท', 'อยากฟัง Three Man Down เล่าเรื่องของพวกเขาให้เราได้รู้จักกันมากขึ้น', 'on sale now', '2021-05-20 10:00:00', '2021-03-20 10:00:00', 3, 1, 1000),
 ('2', 'RRCB MBK (ROCK And ROLL Come Back MBK)', 'โรงแรมคาร์ลตัน กรุงเทพฯ สุขุมวิท', 'RRCB MBK (ROCK And ROLL Come Back MBK) เลื่อนวันแสดงไม่มีกำหนด สำหรับลูกค้าที่ซื้อบัตรคอนเสิร์ตไปแล้วสามารถเก็บบัตรของท่านไว้สำหรับเข้าชมการแสดงในรอบใหม่ได้', 'on sale now', '2021-06-10 00:11:10', '2021-04-20 10:00:00', 3, 1, 1000),
 ('3', 'Dept', 'ยูเนี่ยน ฮอลล์, ศูนย์การค้ายูเนี่ยน มอลล์', 'ทำความรู้จักกับสองหนุ่มวง Dept เบนซ์–ภวัต โอภาสสิริโชติ (ร้องนำ/กีตาร์) และ ลุค ทาวน์เซน (คีย์บอร์ด) วงดูโอ้ป๊อปน้องใหม่จากค่ายสมอลล์รูม', 'on sale now', '2021-08-01 21:10:00', '2021-04-09 10:00:00', 3, 2, 1000),
