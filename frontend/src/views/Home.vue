@@ -236,6 +236,7 @@
 
 <script>
 import axios from '@/plugins/axios';
+import config from '../../config';
 import {required, email, minLength, sameAs, maxLength} from "vuelidate/lib/validators";
 function complexPassword(value) {
   if (!(value.match(/[a-z]/) && value.match(/[A-Z]/) && value.match(/[0-9]/))) {
@@ -250,6 +251,7 @@ export default {
   props: ["user"],
   data() {
     return {
+      backEndURL: config.backEndURL,
       emailLogin: '',
       passLogin: '',
       concerts: [],
@@ -355,7 +357,7 @@ export default {
     },
     imagePath(file_path) {
       if (file_path){
-        return 'http://44.201.130.196:3000/' + file_path
+        return config.backEndURL + '/' + file_path
       } 
       else {
         return 'https://bulma.io/images/placeholders/640x360.png'

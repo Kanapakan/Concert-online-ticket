@@ -1,15 +1,17 @@
 <template>
     <div>
-        <img :src="'http://44.201.130.196:3000/' + img" alt="">
+        <img :src="backEndURL+'/' + img" alt="">
         <button @click="back()">test</button>
     </div>
 </template>
 <script>
 import axios from "@/plugins/axios";
+import config from '../../config';
 export default {
     props: ["user"],
     data(){
         return{
+            backEndURL: config.backEndURL,
             img: null,
         }
     },
@@ -25,7 +27,7 @@ export default {
     },
     methods:{
         back(){
-            location.href = `http://44.201.130.196:8080/myconcert/${this.user.user_id}`
+            location.href = `${config.frontEndURL}/myconcert/${this.user.user_id}`
         }
     },
 }

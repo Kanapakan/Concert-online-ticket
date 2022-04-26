@@ -61,7 +61,7 @@
                              <td style="width: 30vw;"> 
                                <div class="row">
                                  <div class="col-2">
-                                    <img :src="'http://localhost:3000/' + item.file_path"  alt="" class="mr-2 container-fluid">
+                                    <img :src="backEndURL+'/' + item.file_path"  alt="" class="mr-2 container-fluid">
                                  </div>
                                  <div class="col">
                                     {{item.concert_title}}
@@ -115,7 +115,7 @@
             <div class="modal-dialog" >
                 <div class="modal-content">
                     <div class="modal-body ">
-                        <img class="mx-auto img-fluid" :src="'http://localhost:3000/' + payImg" alt="logo" style="display: block;">
+                        <img class="mx-auto img-fluid" :src="backEndURL+'/' + payImg" alt="logo" style="display: block;">
                     </div>
                 </div>
             </div>
@@ -282,6 +282,7 @@
 <script>
 
 import axios from "@/plugins/axios";
+import config from '../../config';
 import {
   required,
   minLength,
@@ -315,6 +316,7 @@ export default {
     props: ['user'],
     data() {
         return {
+          backEndURL: config.backEndURL,
             xxx: {},
             firstName: '',
             lastName: '',
@@ -487,7 +489,7 @@ export default {
     //    return concert.user_user_id === this.user.id
     // }
     editCon(id){
-      location.href = `http://localhost:8080/update/${id}`
+      location.href = `${config.frontEndURL}/update/${id}`
     },
   },
   

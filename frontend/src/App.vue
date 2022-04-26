@@ -3,7 +3,7 @@
   <div id="app">
     <nav class="navbar navbar-expand-lg navbar-light">
       <a class="navbar-brand" >
-        <img src="http://localhost:3000/uploads/logo.png" width="30" height="auto" alt="" />
+        <img src="http://44.198.159.109:3000/uploads/logo.png" width="30" height="auto" alt="" />
       </a>
 
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -109,9 +109,11 @@
 <script>
 import axios from "@/plugins/axios";
 import store from "./vuex/store"; // import the store we just created
+import config from "../config";
 export default {
   data() {
     return {
+      backEndURL: config.backEndURL,
       store,
       user: null,
     };
