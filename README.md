@@ -18,6 +18,7 @@ Concert Online Ticket เป็น Web Application ที่มีระบบ�
 
 # Running the tests
 เวลา run program ต้อง run ทั้ง 2 ส่วน Backend เเละ Frontend พร้อมกัน
+และสร้าง Database ใน MySQL
 
 ## Backend
 To run server:
@@ -33,6 +34,14 @@ npm install
 Compiles and hot-reloads for development
 ```
 npm run serve
+```
+
+## Database
+แก้ไข config (/backend/config.js) เพื่อเชื่อมต่อฐานข้อมูลใน MySQL
+
+```
+create datebase concert 
+เพิ่ม Tables ต่าง ๆ โดยลงไฟล์ exampleData.sql และ concertPlace.sql ใน MySQL
 ```
 
 ***
