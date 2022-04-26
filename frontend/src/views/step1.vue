@@ -5,7 +5,7 @@
         <div class="row"> 
           <div class="col-2"> 
             <img  
-                 :src="'http://localhost:3000/'+concerts.images[0].file_path"
+                 :src="'http://44.201.130.196:3000/'+concerts.images[0].file_path"
               alt="" 
               height="170px"
               style="position: absolute; top: 30px; right: 0px;" 
@@ -78,7 +78,7 @@
                     coords="57,138,447,136,447,618,55,620" 
                     style="position: absolute; left: 7em" 
                     onclick="selectzone(this.href, event)" 
-                    :href ="'http://localhost:8080/step2/' + concerts.concert.concert_id"
+                    :href ="'http://44.201.130.196:8080/step2/' + concerts.concert.concert_id"
                     
                     
                   /> 

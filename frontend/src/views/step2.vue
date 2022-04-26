@@ -5,7 +5,7 @@
         <div class="row">
           <div class="col-2">
             <img
-              :src="'http://localhost:3000/' + concerts.images[0].file_path"
+              :src="'http://44.201.130.196:3000/' + concerts.images[0].file_path"
               alt=""
               height="170px"
               style="position: absolute; top: 30px; right: 0px"
@@ -322,7 +322,7 @@ export default {
       }
       else if(this.choose.length > 0 && this.choose.length < 5){
         this.detail.push({choose: this.choose, countChoose: this.countChoose, countPrice: this.countPrice})
-        location.href =`http://localhost:8080/step3/${this.concerts.concert.concert_id}`
+        location.href =`http://44.201.130.196:8080/step3/${this.concerts.concert.concert_id}`
         localStorage.setItem('detail', JSON.stringify(this.detail))
       }
       else{

@@ -172,7 +172,7 @@
           <div class="card" style="border-style: hidden;">
             <div class="card-image">
               <div class="text-center" id="card-img-top">
-                <img :src="'http://localhost:3000/'+image.file_path" alt="Placeholder image" class="w-25"/>
+                <img :src="'http://44.201.130.196:3000/'+image.file_path" alt="Placeholder image" class="w-25"/>
               </div>
             </div>       
            <button @click="deleteCurrentImage(image.id)" class="btn btn-secondary" style="cursor: pointer; ">ยกเลิกการเลือก</button>
@@ -385,7 +385,7 @@ export default {
         .put(`/concerts/${this.concert.concert.concert_id}`, formData)
         .then((res) => {
           console.log(res)
-          location.href = `http://localhost:8080/myconcert/${this.user.user_id}`
+          location.href = `http://44.201.130.196:8080/myconcert/${this.user.user_id}`
         })
         .catch((e) => console.log(e.response.data));
       }

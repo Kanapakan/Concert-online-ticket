@@ -153,7 +153,7 @@ export default {
   }, 
   created() { 
     axios 
-      .get("http://localhost:3000/hotel_K") 
+      .get("http://44.201.130.196:3000/hotel_K") 
       .then((response) => { 
        store.state.info = response.data 
        console.log(store.state.info[0].file_path) 
@@ -176,7 +176,7 @@ export default {
       }, 
       imagePath(file_path) { 
       if (file_path){ 
-        return 'http://localhost:3000/' + file_path 
+        return 'http://44.201.130.196:3000/' + file_path 
       }  
       else { 
         return 'https://bulma.io/images/placeholders/640x360.png' 

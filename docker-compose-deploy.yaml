@@ -5,6 +5,12 @@ services:
         image: 62070040/majorbackend
         ports:
             - 3000:3000
+        environment:
+            MYSQL_HOST: database-1.cwqp3zvidlqe.us-east-1.rds.amazonaws.com
+            MYSQL_USER: root
+            MYSQL_ROOT_PASSWORD: 62070040
+            MYSQL_DATABASE: concert
+            MYSQL_PASSWORD: 62070040
     frontend:
         image: 62070040/majorfrontend
         ports:

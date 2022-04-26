@@ -92,7 +92,7 @@ export default {
   },
   methods:{
       pay(){
-        location.href = `http://localhost:8080/paymentform/${this.concerts.concert.concert_id}`
+        location.href = `http://44.201.130.196:8080/paymentform/${this.concerts.concert.concert_id}`
 
       },
       getConcert(id) {

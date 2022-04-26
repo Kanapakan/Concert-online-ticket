@@ -355,7 +355,7 @@ export default {
     },
     imagePath(file_path) {
       if (file_path){
-        return 'http://localhost:3000/' + file_path
+        return 'http://44.201.130.196:3000/' + file_path
       } 
       else {
         return 'https://bulma.io/images/placeholders/640x360.png'

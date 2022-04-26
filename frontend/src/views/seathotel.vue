@@ -188,7 +188,7 @@ export default {
   store, 
   created() { 
     axios 
-      .get("http://localhost:3000/seathotel") 
+      .get("http://44.201.130.196:3000/seathotel") 
       .then((response) => { 
         this.x = response.data; 
           

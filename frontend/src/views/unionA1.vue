@@ -148,7 +148,7 @@
 import axios from "axios"; 
 export default { 
     created() { 
-    axios.get("http://localhost:3000/unionA1") 
+    axios.get("http://44.201.130.196:3000/unionA1") 
         .then((response) => { 
           this.x = response.data[0]; 
           console.log(this.x) 

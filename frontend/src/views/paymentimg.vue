@@ -1,6 +1,6 @@
 <template>
     <div>
-        <img :src="'http://localhost:3000/' + img" alt="">
+        <img :src="'http://44.201.130.196:3000/' + img" alt="">
         <button @click="back()">test</button>
     </div>
 </template>
@@ -25,7 +25,7 @@ export default {
     },
     methods:{
         back(){
-            location.href = `http://localhost:8080/myconcert/${this.user.user_id}`
+            location.href = `http://44.201.130.196:8080/myconcert/${this.user.user_id}`
         }
     },
 }

@@ -33,7 +33,7 @@
             <div class="col-12 col-sm col-img"  style="text-align: -webkit-center; margin-block: auto;">
               <div class="box-img" v-for="image in images" :key="image.id">
                 <img
-                  :src="'http://localhost:3000/' + image.file_path"
+                  :src="'http://44.201.130.196:3000/' + image.file_path"
                   style="height: 300px; object-fit: cover"
                 />
                 <!-- countdown html -->
@@ -201,7 +201,7 @@ export default {
   methods: {
     getConcertDetail(concertID) {
       axios
-        .get(`http://localhost:3000/concerts/${concertID}`)
+        .get(`http://44.201.130.196:3000/concerts/${concertID}`)
         .then((response) => {
           this.concert = response.data.concert
           this.images = response.data.images;
