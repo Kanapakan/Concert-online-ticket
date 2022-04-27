@@ -21,7 +21,6 @@ var storage = multer.diskStorage({
   },
 });
 const upload = multer({ storage: storage });
-
 async function bookValidator(value, helpers) {
   const [rows, _] = await pool.query(
       `select booking_seat from booking where booking_seat = ?`, [value]
@@ -53,7 +52,7 @@ const concertOwner = async (req, res, next) => {
    }
 
 
-router.post("/concerts", upload.array("myImage", 5),async function (req, res, next) {
+router.post("/concerts", upload.single('image'),async function (req, res, next) {
     if (req.method == "POST") {
       const file = req.files;
       let pathArray = [];
@@ -69,7 +68,8 @@ router.post("/concerts", upload.array("myImage", 5),async function (req, res, ne
       const price = req.body.price;
       const concert_showtime = req.body.concert_showtime;
       const buy_available = req.body.buy_available;
-      const user_user_id = req.body.user_user_id
+      const user_user_id = req.body.user_user_id;
+      const image = req.file.image;
     
       const bank_account = req.body.bank_account;
       const account_name = req.body.account_name;
@@ -79,11 +79,11 @@ router.post("/concerts", upload.array("myImage", 5),async function (req, res, ne
       const conn = await pool.getConnection();
       // Begin transaction
       await conn.beginTransaction();
-
       try {
+        
         let results = await conn.query(
-          "INSERT INTO concerts(concert_title, concert_desc, concert_address, address_id, price, concert_showtime, buy_available, user_user_id) VALUES(?, ?, ?, ?, ?, ?, ?, ?);",
-          [concert_title, concert_desc, concert_address, address_id, price, concert_showtime, buy_available, user_user_id]
+          "INSERT INTO concerts(concert_title, concert_desc, concert_address, address_id, price, concert_showtime, buy_available, user_user_id, concert_image) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?);",
+          [concert_title, concert_desc, concert_address, address_id, price, concert_showtime, buy_available, user_user_id, image]
         );
         const concertID = results[0].insertId;
 
@@ -91,7 +91,6 @@ router.post("/concerts", upload.array("myImage", 5),async function (req, res, ne
           "insert into banking (bank_account, account_name, concert_id, user_id, fname, lname) values (?, ?, ?, ?, ?, ?);",
           [bank_account,account_name,concertID,user_user_id,fname,lname]
         )
-
 
         req.files.forEach((file, index) => {
           let path = [concertID, file.path.substring(6), 1];
@@ -112,6 +111,7 @@ router.post("/concerts", upload.array("myImage", 5),async function (req, res, ne
         console.log("finally");
         conn.release();
       }
+      
     }
   }
 );
@@ -122,19 +122,19 @@ router.get("/concerts/:id", function (req, res, next) {
   const promise1 = pool.query("SELECT * FROM concerts where concert_id=?", [
     req.params.id,
   ]);
-  const promise2 = pool.query("SELECT * FROM images WHERE concert_id=?", [
-    req.params.id,
-  ]);  
+  // const promise2 = pool.query("SELECT * FROM images WHERE concert_id=?", [
+  //   req.params.id,
+  // ]);  
 
   // Use Promise.all() to make sure that all queries are successful
-  Promise.all([promise1, promise2])
+  Promise.all([promise1])
     .then((results) => {
       const [concerts, blogFields] = results[0];
-      const [images, imageFields] = results[1];
+      // const [images, imageFields] = results[1];
      
       res.json({
         concert: concerts[0],
-        images: images,
+        // images: images,
         error: null,
       });
     })

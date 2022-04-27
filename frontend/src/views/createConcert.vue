@@ -136,7 +136,7 @@
       <div class="form-group pb-5 was-validated" >
         <label for="inputState">รูปโปสเตอร์การแสดง</label>
         <div class="custom-file position-relative">
-          <input class="custom-file-input" type="file" accept="image/png, image/jpeg, image/webp" @change="selectImages" style="cursor: pointer;" required/>  
+          <input class="custom-file-input" type="file" accept="image/png, image/jpeg, image/webp" @change="selectImages" style="cursor: pointer;" required/>
           <label class="custom-file-label" for="customFile">กรุณาเลือกรูปภาพของคุณ</label>
 
           
@@ -153,7 +153,7 @@
           </div>
         </div>
         </div>
-
+      
         </div>
 
       </div>
@@ -217,7 +217,7 @@ export default {
     return {
       concert: {},
       error: null,
-      images: [], // array of image
+      images: null,
       titleCon: "",
       desConcert: "",
       seatPrice: "",
@@ -303,7 +303,7 @@ export default {
         formData.append("lname", this.user.lname);
 
         this.images.forEach((image) => {
-          formData.append("myImage", image);
+          formData.append("image", image);
         });
 
     axios
