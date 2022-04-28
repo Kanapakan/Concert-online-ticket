@@ -35,7 +35,7 @@ create table `concerts` (
 `user_user_id` int(20) unsigned,
 `address_id` int(20) unsigned,
 `price` int(20) unsigned,
-`concert_image` longblob,
+`concert_image` text,
 foreign key (`user_user_id`) references `users` (`user_id`),
 foreign key (`address_id`) references `location` (`address_id`),
 PRIMARY KEY (`concert_id`),

@@ -142,11 +142,11 @@
           
           <div class="invalid-feedback">กรุณาอัพโหลดรูปภาพ</div>
           <div v-if="images" class="columns is-multiline">
-        <div v-for="(image, index) in images" :key="image.id" class="column is-one-quarter">
+        <div  class="column is-one-quarter">
           <div class="card" style="border-style: hidden;">
             <div class="card-image">
               <div class="text-center" id="card-img-top">
-                <img :src="showSelectImage(image)" alt="Placeholder image" class="w-25"/>
+                <img :src="images" alt="Placeholder image" class="w-25"/>
               </div>
             </div>       
            <button @click="deleteSelectImage(index)" class="btn btn-secondary" style="cursor: pointer; ">ยกเลิกการเลือก</button>
@@ -215,9 +215,10 @@ export default {
   props: ["user"],
   data() {
     return {
+      showimg: null,
       concert: {},
       error: null,
-      images: null,
+      images: '',
       titleCon: "",
       desConcert: "",
       seatPrice: "",
@@ -228,6 +229,7 @@ export default {
       statusCon: "coming soon",
       location_name: '',
       location: null,
+      customImageMaxSize: 3
     };
   },
   validations: {
@@ -261,6 +263,29 @@ export default {
   },
 
   methods: {
+    createBase64Image(fileObject){
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        // var data = (e.target.result).split(',')[1];
+        // this.images = atob(data);
+        // console.log('images Binary:', this.images)
+        // this.showimg = e.target.result;
+        this.images = e.target.result;
+    };
+    // reader.onloadend = function(){
+    //   console.log('Base 64:', reader.result)
+    //   var data = (reader.result).split(',')[1];
+    //   this.images = atob(data);
+    //   console.log('images Binary:', this.images)
+    // }
+    reader.readAsDataURL(fileObject)
+    // this.showimg = reader.readAsDataURL(fileObject);
+    },
+    selectImages(event) {
+      const selected = event.target.files[0];
+      this.createBase64Image(selected)
+      console.log(selected)
+    },
     getlocationname(){
         if(this.location == 1){
             this.location_name = 'โรงแรมคาร์ลตัน กรุงเทพฯ สุขุมวิท'
@@ -272,9 +297,6 @@ export default {
             this.location_name = 'ศูนย์วัฒนธรรมแห่งประเทศไทย หอประชุมใหญ่'
           }
       },
-    selectImages(event) {
-      this.images = event.target.files;
-    },
     showSelectImage(image) {
       // for preview only
       return URL.createObjectURL(image);
@@ -301,13 +323,13 @@ export default {
         formData.append("account_name", this.bankName);
         formData.append("fname", this.user.fname);
         formData.append("lname", this.user.lname);
-
-        this.images.forEach((image) => {
-          formData.append("image", image);
-        });
-
+        formData.append("image", this.images);
+        // this.images.forEach((image) => {
+        //   formData.append("image", image);
+        // });
     axios
         .post("/concerts", formData)
+        // .then(() => console.log("click submit"))
         .then(() => location.href = '/')
         .catch((e) => console.log(e.response.data));
       }

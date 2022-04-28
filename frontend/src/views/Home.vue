@@ -68,7 +68,7 @@
           <div class="card" style="position:relative; border-style: hidden;">
             <router-link  :to="`/detail/${concert.concert_id}`">
             <div id="card-img-top"  style="height: 150px; width: auto; background-position: center;">
-                <img :to="`/detail/${concert.concert_id}`"  :src="imagePath(concert.concert_image.data)" alt="image cap">
+                <img :to="`/detail/${concert.concert_id}`"  :src="imagePath(concert.concert_image)" alt="image cap">
             </div>
             </router-link>
             <div :to="`/detail/${concert.concert_id}`" class="card-body" style="min-height:200px; padding: 0.5rem;">
@@ -356,8 +356,15 @@ export default {
         });
     },
     imagePath(file_path) {
-      console.log(btoa(new Uint8Array(file_path).reduce((data, byte) => data + String.fromCharCode(byte), '')));
-      return 'data:image/jpeg;base64,' + btoa(new Uint8Array(file_path).reduce((data, byte) => data + String.fromCharCode(byte), ''));
+      console.log(file_path);
+      return  file_path
+      // return 'data:image/jpeg;base64,' + btoa(new Uint8Array(file_path).reduce((data, byte) => data + String.fromCharCode(byte), ''));
+      // console.log(file_path)
+      // return new Promise((resolve) => {
+      //   const reader = new FileReader();
+      //   reader.onloadend = () => resolve(reader.result);
+      //   reader.readAsDataURL(file_path)
+      // })
       // if (file_path){
       //   return config.backEndURL + '/' + file_path
       // } 

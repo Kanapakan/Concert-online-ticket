@@ -20,7 +20,7 @@ var storage = multer.diskStorage({
     );
   },
 });
-const upload = multer({ storage: storage });
+const upload = multer();
 async function bookValidator(value, helpers) {
   const [rows, _] = await pool.query(
       `select booking_seat from booking where booking_seat = ?`, [value]
@@ -52,71 +52,69 @@ const concertOwner = async (req, res, next) => {
    }
 
 
-router.post("/concerts", upload.single('image'),async function (req, res, next) {
-    if (req.method == "POST") {
-      const file = req.files;
-      let pathArray = [];
-
-      if (!file) {
-        return res.status(400).json({ message: "Please upload a file" });
-      }
-
-      const concert_title = req.body.concert_title;
-      const concert_desc = req.body.concert_desc;
-      const concert_address = req.body.concert_address;
-      const address_id = req.body.address_id;
-      const price = req.body.price;
-      const concert_showtime = req.body.concert_showtime;
-      const buy_available = req.body.buy_available;
-      const user_user_id = req.body.user_user_id;
-      const image = req.file.image;
-    
-      const bank_account = req.body.bank_account;
-      const account_name = req.body.account_name;
-      const fname = req.body.fname;
-      const lname = req.body.lname;
-
-      const conn = await pool.getConnection();
-      // Begin transaction
-      await conn.beginTransaction();
-      try {
-        
-        let results = await conn.query(
-          "INSERT INTO concerts(concert_title, concert_desc, concert_address, address_id, price, concert_showtime, buy_available, user_user_id, concert_image) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?);",
-          [concert_title, concert_desc, concert_address, address_id, price, concert_showtime, buy_available, user_user_id, image]
-        );
-        const concertID = results[0].insertId;
-
-        await conn.query(
-          "insert into banking (bank_account, account_name, concert_id, user_id, fname, lname) values (?, ?, ?, ?, ?, ?);",
-          [bank_account,account_name,concertID,user_user_id,fname,lname]
-        )
-
-        req.files.forEach((file, index) => {
-          let path = [concertID, file.path.substring(6), 1];
-          pathArray.push(path);
-        });
-
-        await conn.query(
-          "INSERT INTO images(concert_id, file_path, main) VALUES ?;",
-          [pathArray]
-        );
-
-        await conn.commit();
-        res.send("success!");
-      } catch (err) {
-        await conn.rollback();
-        return res.status(400).json(err);
-      } finally {
-        console.log("finally");
-        conn.release();
-      }
+    router.post("/concerts", upload.array("myImage", 5),async function (req, res, next) {
+      if (req.method == "POST") {
+        const file = req.files;
+        let pathArray = [];
+  
+        if (!file) {
+          return res.status(400).json({ message: "Please upload a file" });
+        }
+  
+        const concert_title = req.body.concert_title;
+        const concert_desc = req.body.concert_desc;
+        const concert_address = req.body.concert_address;
+        const address_id = req.body.address_id;
+        const price = req.body.price;
+        const concert_showtime = req.body.concert_showtime;
+        const buy_available = req.body.buy_available;
+        const user_user_id = req.body.user_user_id
       
+        const bank_account = req.body.bank_account;
+        const account_name = req.body.account_name;
+        const fname = req.body.fname;
+        const lname = req.body.lname;
+        const image = req.body.image;
+  
+        const conn = await pool.getConnection();
+        // Begin transaction
+        await conn.beginTransaction();
+  
+        try {
+          let results = await conn.query(
+            "INSERT INTO concerts(concert_title, concert_desc, concert_address, address_id, price, concert_showtime, buy_available, user_user_id, concert_image) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?);",
+            [concert_title, concert_desc, concert_address, address_id, price, concert_showtime, buy_available, user_user_id, image]
+          );
+          const concertID = results[0].insertId;
+  
+          await conn.query(
+            "insert into banking (bank_account, account_name, concert_id, user_id, fname, lname) values (?, ?, ?, ?, ?, ?);",
+            [bank_account,account_name,concertID,user_user_id,fname,lname]
+          )
+  
+  
+          // req.files.forEach((file, index) => {
+          //   let path = [concertID, file.path.substring(6), 1];
+          //   pathArray.push(path);
+          // });
+  
+          // await conn.query(
+          //   "INSERT INTO images(concert_id, file_path, main) VALUES ?;",
+          //   [pathArray]
+          // );
+  
+          await conn.commit();
+          res.send("success!");
+        } catch (err) {
+          await conn.rollback();
+          return res.status(400).json(err);
+        } finally {
+          console.log("finally");
+          conn.release();
+        }
+      }
     }
-  }
-);
-
-// Blog detail
+  );
 router.get("/concerts/:id", function (req, res, next) {
   // Query data from 3 tables
   const promise1 = pool.query("SELECT * FROM concerts where concert_id=?", [
@@ -282,23 +280,25 @@ router.delete('/image/:imageId',concertOwner, async function (req, res, next) {
 
   try {
       // Get Path files from the upload folder
-      const [
-          images,
-          imageFields,
-      ] = await conn.query(
-          "SELECT `file_path` FROM `images` WHERE `id` = ?",
+      // const [
+      //     images,
+      //     imageFields,
+      // ] = 
+      await conn.query(
+          "SELECT `concert_image` FROM `concerts` WHERE `concert_id` = ?",
           [req.params.imageId]
       );
 
       // Delete File from path
-      const appDir = path.dirname(require.main.filename); // Get app root directory
-      console.log(appDir)
-      const p = path.join(appDir, 'static', images[0].file_path);
-      fs.unlinkSync(p);
+      // const appDir = path.dirname(require.main.filename); // Get app root directory
+      // console.log(appDir)
+      // const p = path.join(appDir, 'static', images[0].file_path);
+      // fs.unlinkSync(p);
 
       // Delete Data from Table images
-      const [rows1, fields1] = await conn.query(
-          'DELETE FROM `images` WHERE `id`=?', [req.params.imageId]
+      // const [rows1, fields1] = 
+      await conn.query(
+        'UPDATE concert.concerts set concert_image = null where concert_id=?', [req.params.imageId]
       )
 
       // commit
@@ -313,16 +313,15 @@ router.delete('/image/:imageId',concertOwner, async function (req, res, next) {
   }
 })
 
-router.put("/concerts/:id",upload.array("myImage", 5), concertOwner,  async function (req, res, next) {
-  const file = req.files;
-  let pathArray = []
+router.put("/concerts/:id", upload.array("myImage", 5), concertOwner,  async function (req, res, next) {
+  // const file = req.files;
+  // let pathArray = []
 
-  if (!file) {
-    const error = new Error("Please upload a file");
-    error.httpStatusCode = 400;
-    next(error);
-  }
-
+  // if (!file) {
+  //   const error = new Error("Please upload a file");
+  //   error.httpStatusCode = 400;
+  //   next(error);
+  // }
   const concert_title = req.body.concert_title;
   const concert_desc = req.body.concert_desc;
   const concert_address = req.body.concert_address;
@@ -337,6 +336,7 @@ router.put("/concerts/:id",upload.array("myImage", 5), concertOwner,  async func
   const concert_id  = req.body.concert_id;
   const fname = req.body.fname;
   const lname = req.body.lname;
+  const image = req.body.image;
 
 
   const conn = await pool.getConnection()
@@ -344,24 +344,24 @@ router.put("/concerts/:id",upload.array("myImage", 5), concertOwner,  async func
 
   try {
     let results = await conn.query(
-      "UPDATE concerts SET concert_title=?, concert_address=?, concert_desc=?, concert_showtime=?, buy_available=?, address_id=?, price=?, user_user_id=? WHERE concert_id=?",
-      [concert_title,concert_address,concert_desc,concert_showtime,buy_available,address_id,price,user_user_id, req.params.id]
+      "UPDATE concerts SET concert_title=?, concert_address=?, concert_desc=?, concert_showtime=?, buy_available=?, address_id=?, price=?, user_user_id=?, concert_image=? WHERE concert_id=?",
+      [concert_title,concert_address,concert_desc,concert_showtime,buy_available,address_id,price,user_user_id, image, req.params.id]
     )
     await conn.query(
       "UPDATE banking SET bank_account=?, account_name=?, concert_id=?, user_id=?, fname=?, lname=? WHERE concert_id=?",
       [bank_account,account_name,concert_id,user_user_id,fname,lname, req.params.id]
     )
 
-    if (file.length > 0) {
-      file.forEach((file, index) => {
-        let path = [req.params.id, file.path.substring(6), 1]
-        pathArray.push(path)
-      })
+    // if (file.length > 0) {
+    //   file.forEach((file, index) => {
+    //     let path = [req.params.id, file.path.substring(6), 1]
+    //     pathArray.push(path)
+    //   })
 
-      await conn.query(
-        "INSERT INTO images(concert_id, file_path, main) VALUES ?;",
-        [pathArray])
-    }
+    //   await conn.query(
+    //     "INSERT INTO images(concert_id, file_path, main) VALUES ?;",
+    //     [pathArray])
+    // }
 
     await conn.commit()
     res.send("success!");
