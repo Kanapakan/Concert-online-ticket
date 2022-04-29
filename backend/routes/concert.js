@@ -166,7 +166,7 @@ router.get("/mycon/:id", async function (req, res, next) {
   await conn.beginTransaction()
 
   try {
-    let [rows,fields] = await conn.query("SELECT c.concert_id, c.concert_title, c.price, i.file_path, l.seat, sum(IFNULL(b.booking_amount,0)) `sold`, l.amount, c.concert_status FROM concerts c join images  i on (c.concert_id = i.concert_id) join location l on (c.address_id = l.address_id) left outer join booking b on (c.concert_id = b.concert_concert_id) group by c.concert_title, c.price, c.user_user_id, i.file_path, l.seat having c.user_user_id = ?", [req.params.id]);
+    let [rows,fields] = await conn.query("SELECT c.concert_id, c.concert_title, c.price, c.concert_image, l.seat, sum(IFNULL(b.booking_amount,0)) `sold`, l.amount, c.concert_status FROM concerts c join location l on (c.address_id = l.address_id) left outer join booking b on (c.concert_id = b.concert_concert_id) group by c.concert_title, c.price, c.user_user_id, c.concert_image, l.seat having c.user_user_id = ?", [req.params.id]);
 
 
     await conn.commit();

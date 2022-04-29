@@ -3,7 +3,7 @@
   <div id="app">
     <nav class="navbar navbar-expand-lg navbar-light">
       <a class="navbar-brand" >
-        <img src="http://localhost:3000/uploads/logo.png" width="30" height="auto" alt="" />
+        <img src="http://54.242.126.0:3000/uploads/logo.png" width="30" height="auto" alt="" />
       </a>
 
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
