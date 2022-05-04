@@ -6,8 +6,8 @@ services:
         build:
             context: ./backend
             dockerfile: ./Dockerfile
-    front_end:
-        image: 62070040/majorfrontend
-        build:
-            context: ./frontend
-            dockerfile: ./Dockerfile
+    # front_end:
+    #     image: 62070040/majorfrontend
+    #     build:
+    #         context: ./frontend
+    #         dockerfile: ./Dockerfile

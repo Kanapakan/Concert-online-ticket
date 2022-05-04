@@ -27,7 +27,9 @@ export default {
     },
     methods:{
         back(){
-            location.href = `${config.frontEndURL}/myconcert/${this.user.user_id}`
+            this.$router.push({path: `/myconcert/${this.user.user_id}`})
+            // location.href = `${config.frontEndURL}/myconcert/${this.user.user_id}`
+            // location.href = `/myconcert/${this.user.user_id}`
         }
     },
 }

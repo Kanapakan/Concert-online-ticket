@@ -77,7 +77,7 @@
 </template>
 <script>
 import axios from "@/plugins/axios";
-import config from '../../config';
+// import config from '../../config';
 export default {
   props: ["user"],
     data() {
@@ -93,7 +93,10 @@ export default {
   },
   methods:{
       pay(){
-        location.href = `${config.frontEndURL}/paymentform/${this.concerts.concert.concert_id}`
+        this.$router.push({path: `/paymentform/${this.concerts.concert.concert_id}`})
+        // location.href = `${config.frontEndURL}/paymentform/${this.concerts.concert.concert_id}`
+        // location.href = `/paymentform/${this.concerts.concert.concert_id}`
+
 
       },
       getConcert(id) {

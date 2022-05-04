@@ -240,7 +240,10 @@ export default {
         .post(`/addbooking`, data)
         .then((res) => {
             console.log(res.data)
-          location.href = `${config.frontEndURL}/step4/${this.concerts.concert.concert_id}`
+            this.$router.push({path: `/step4/${this.concerts.concert.concert_id}`})
+        //   location.href = `${config.frontEndURL}/step4/${this.concerts.concert.concert_id}`
+            // location.href = `/step4/${this.concerts.concert.concert_id}`
+
         })
         .catch((error) => {
             console.log(error)

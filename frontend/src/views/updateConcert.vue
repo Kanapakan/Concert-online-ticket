@@ -400,7 +400,10 @@ export default {
         .put(`/concerts/${this.concert.concert.concert_id}`, formData)
         .then((res) => {
           console.log(res)
-          location.href = `${config.frontEndURL}/myconcert/${this.user.user_id}`
+          this.$router.push({path: `/myconcert/${this.user.user_id}`})
+          // location.href = `${config.frontEndURL}/myconcert/${this.user.user_id}`
+          // location.href = `/myconcert/${this.user.user_id}`
+
         })
         .catch((e) => console.log(e.response.data));
       }

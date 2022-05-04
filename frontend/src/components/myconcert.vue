@@ -465,7 +465,8 @@ export default {
       },
       logout(){
             localStorage.clear()
-            location.reload();
+            this.$router.push({path: `/`})
+            // location.reload();
         },
     getImg(event){
       this.payImg = event
@@ -479,7 +480,7 @@ export default {
         axios
         .put(`/changestatus/${id}`, data)
         .then(() => {
-          location.reload();
+          this.$router.push({path: `/myconcert/${this.user.user_id}`})
         })
         .catch((e) => {
           console.log(e)
@@ -493,7 +494,9 @@ export default {
     //    return concert.user_user_id === this.user.id
     // }
     editCon(id){
-      location.href = `${config.frontEndURL}/update/${id}`
+      this.$router.push({path: `/update/${id}`})
+      // location.href = `${config.frontEndURL}/update/${id}`
+      // location.href = `/update/${id}`
     },
   },
   

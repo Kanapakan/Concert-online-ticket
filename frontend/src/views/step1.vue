@@ -72,15 +72,18 @@
             <div class="col-8" style="padding-left: 6em"> 
               <div class="map-zone"> 
                 <img :src="location.image" usemap="#"  /> 
+                <router-link :to="`/step2/${concerts.concert.concert_id}`">
                 <map name="" id=""> 
                   <area 
                     shape="poly" 
                     coords="57,138,447,136,447,618,55,620" 
                     style="position: absolute; left: 7em" 
-                    onclick="selectzone(this.href, event)" 
-                    :href ="frontEndURL+'/step2/' + concerts.concert.concert_id"
-                  /> 
-                </map> 
+                  />
+                  <!-- onclick="selectzone(this.href, event)" -->
+                  <!-- :href ="'/step2/' + concerts.concert.concert_id" -->
+                  <!-- :href ="frontEndURL+'/step2/' + concerts.concert.concert_id" -->
+                </map>
+                 </router-link>
               </div> 
             </div> 
             <div class="col-3" style="padding-top: 10em"> 

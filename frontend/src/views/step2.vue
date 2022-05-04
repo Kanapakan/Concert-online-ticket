@@ -325,7 +325,9 @@ export default {
       }
       else if(this.choose.length > 0 && this.choose.length < 5){
         this.detail.push({choose: this.choose, countChoose: this.countChoose, countPrice: this.countPrice})
-        location.href =`${config.frontEndURL}/step3/${this.concerts.concert.concert_id}`
+        this.$router.push({path: `/step3/${this.concerts.concert.concert_id}`})
+        // location.href =`${config.frontEndURL}/step3/${this.concerts.concert.concert_id}`
+        // location.href =`/step3/${this.concerts.concert.concert_id}`
         localStorage.setItem('detail', JSON.stringify(this.detail))
       }
       else{
