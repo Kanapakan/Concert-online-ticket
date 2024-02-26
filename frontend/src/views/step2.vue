@@ -5,7 +5,7 @@
         <div class="row">
           <div class="col-2">
             <img
-              :src="'http://localhost:3000/' + concerts.images[0].file_path"
+              :src="concerts.concert.concert_image"
               alt=""
               height="170px"
               style="position: absolute; top: 30px; right: 0px"
@@ -182,10 +182,13 @@
 </template>
 <script>
 import axios from "@/plugins/axios";
+import config from '../../config';
 export default {
   props: ["user"],
   data() {
     return {
+      backEndURL: config.backEndURL,
+      frontEndURL: config.frontEndURL,
       concerts: null,
       location: null,
       // seatArray: null,
@@ -322,7 +325,9 @@ export default {
       }
       else if(this.choose.length > 0 && this.choose.length < 5){
         this.detail.push({choose: this.choose, countChoose: this.countChoose, countPrice: this.countPrice})
-        location.href =`http://localhost:8080/step3/${this.concerts.concert.concert_id}`
+        this.$router.push({path: `/step3/${this.concerts.concert.concert_id}`})
+        // location.href =`${config.frontEndURL}/step3/${this.concerts.concert.concert_id}`
+        // location.href =`/step3/${this.concerts.concert.concert_id}`
         localStorage.setItem('detail', JSON.stringify(this.detail))
       }
       else{

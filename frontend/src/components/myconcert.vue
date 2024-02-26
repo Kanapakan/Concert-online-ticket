@@ -51,7 +51,7 @@
                             <th scope="col">ชื่อการแสดง</th>
                             <th scope="col">ราคา</th>
                             <th scope="col">ที่นั่งทั้งหมด</th>
-                            <th scope="col">ยอดขาย <br> (ที่นั้ง)</th>
+                            <th scope="col">ยอดขาย <br> (ที่นั่ง)</th>
                             <th scope="col">สถานะ</th>
                             <th scope="col">การดำเนินการ</th>
                         </tr>
@@ -61,7 +61,7 @@
                              <td style="width: 30vw;"> 
                                <div class="row">
                                  <div class="col-2">
-                                    <img :src="'http://localhost:3000/' + item.file_path"  alt="" class="mr-2 container-fluid">
+                                    <img :src="item.concert_image"  alt="" class="mr-2 container-fluid">
                                  </div>
                                  <div class="col">
                                     {{item.concert_title}}
@@ -108,14 +108,14 @@
                             <td class="text-center" >{{item.booking_seat}}</td>
                             <td class="text-center" >{{item.booking_price}} บาท </td>
                             <td class="text-center" >{{ new Date(item.pay_date).toLocaleDateString("th", { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric', hour: 'numeric', minute: 'numeric'}) }} น.</td>
-                            <td class="text-center" ><button class="btn btn-warning btn-sm" style="border-radius: 2.5em;" type="button" @click="getImg(item.file_path)" data-toggle="modal" data-target="#modalimg">หลักฐาน</button>
+                            <td class="text-center" ><button class="btn btn-warning btn-sm" style="border-radius: 2.5em;" type="button" @click="getImg(item.payimages)" data-toggle="modal" data-target="#modalimg">หลักฐาน</button>
                             
 
                             <div class="modal fade" tabindex="-1" id="modalimg" aria-hidden="true">
             <div class="modal-dialog" >
                 <div class="modal-content">
                     <div class="modal-body ">
-                        <img class="mx-auto img-fluid" :src="'http://localhost:3000/' + payImg" alt="logo" style="display: block;">
+                        <img class="mx-auto img-fluid" :src="payImg" alt="logo" style="display: block;">
                     </div>
                 </div>
             </div>
@@ -282,6 +282,7 @@
 <script>
 
 import axios from "@/plugins/axios";
+import config from '../../config';
 import {
   required,
   minLength,
@@ -315,6 +316,7 @@ export default {
     props: ['user'],
     data() {
         return {
+          backEndURL: config.backEndURL,
             xxx: {},
             firstName: '',
             lastName: '',
@@ -329,21 +331,26 @@ export default {
             editProfile: 'false',
             concerts: {}, 
             myOrders:{},
-            payImg: null,
+            payImg: '',
             lastStatus: '',
             
         };
     },
     mounted () {
-      this.getMycon(this.user.user_id)
-      this.firstName = this.user.fname
-      this.lastName = this.user.lname
-      this.address = this.user.address
-      this.mobile = this.user.phone
-      
-     
-  },
-    validations:{
+      axios
+        .get(`/user/me`)
+        .then((response) => {
+          this.getMycon(response.data.user_id)
+          this.firstName = response.data.fname
+          this.lastName = response.data.lname
+          this.address = response.data.address
+          this.mobile = response.data.phone
+        })
+        .catch((error) => {
+          this.error = error.response.data.message;
+        });
+  },      
+         validations:{
     firstName:{
         required: required,
         name: name,
@@ -377,7 +384,6 @@ export default {
   },
   methods:{
     editUser() {
-      
       if (!this.$v.$invalid) {
       let data = {
         first_name: this.firstName,
@@ -459,10 +465,11 @@ export default {
       },
       logout(){
             localStorage.clear()
-            location.reload();
+            this.$router.push({path: `/`})
+            // location.reload();
         },
-    getImg(file_path){
-      this.payImg = file_path
+    getImg(event){
+      this.payImg = event
     },
     changeStatusOrder(status, id){
       let data = {
@@ -472,8 +479,8 @@ export default {
       if (r == true) {
         axios
         .put(`/changestatus/${id}`, data)
-        .then((res) => {
-          console.log(res)
+        .then(() => {
+          this.$router.push({path: `/myconcert/${this.user.user_id}`})
         })
         .catch((e) => {
           console.log(e)
@@ -487,7 +494,9 @@ export default {
     //    return concert.user_user_id === this.user.id
     // }
     editCon(id){
-      location.href = `http://localhost:8080/update/${id}`
+      this.$router.push({path: `/update/${id}`})
+      // location.href = `${config.frontEndURL}/update/${id}`
+      // location.href = `/update/${id}`
     },
   },
   

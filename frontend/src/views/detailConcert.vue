@@ -31,9 +31,9 @@
         <div class="content container">
           <div class="row justify-content-center">
             <div class="col-12 col-sm col-img"  style="text-align: -webkit-center; margin-block: auto;">
-              <div class="box-img" v-for="image in images" :key="image.id">
+              <div class="box-img">
                 <img
-                  :src="'http://localhost:3000/' + image.file_path"
+                  :src="images"
                   style="height: 300px; object-fit: cover"
                 />
                 <!-- countdown html -->
@@ -178,9 +178,11 @@
 
 <script>
 import axios from '@/plugins/axios';
+import config from '../../config';
 export default {
   data() {
     return {
+      backEndURL: config.backEndURL,
       concert: {},
       location: [],
       error: null,
@@ -188,7 +190,7 @@ export default {
       buy: "",
       time: "",
       locactionId: [],
-      images: [],
+      images: '',
       imagesLo: "",
       locationName:  "",
     };
@@ -201,16 +203,17 @@ export default {
   methods: {
     getConcertDetail(concertID) {
       axios
-        .get(`http://localhost:3000/concerts/${concertID}`)
+        .get(`${config.backEndURL}/concerts/${concertID}`)
         .then((response) => {
-          this.concert = response.data.concert
-          this.images = response.data.images;
+          this.concert = response.data.concert;
+          this.images = this.concert.concert_image;
           this.locationId = this.concert.address_id;
           // console.log(this.concert)
           this.date = new Date(this.concert.concert_showtime).toLocaleDateString("th", { weekday: "short", year: "numeric", month: "short", day: "numeric",}) 
           this.time = new Date(this.concert.concert_showtime) .toLocaleDateString("th", { hour: "numeric",  minute: "numeric", }).slice(-5)
           this.buy = new Date(this.concert.buy_available).toLocaleDateString("th", { weekday: "short", year: "numeric", month: "short", day: "numeric",})   
           this.getLocation(this.locationId);
+          console.log(this.concert)
         })
         .catch((error) => {
           this.error = error.response.data.message;

@@ -1,0 +1,17 @@
+version: '3.8'
+
+services:
+    back_end:
+        image: 62070040/majorbackend
+        ports:
+            - 80:3000
+        environment:
+            MYSQL_HOST: database-1.c18aowxhcx4n.us-east-1.rds.amazonaws.com
+            MYSQL_USER: root
+            MYSQL_ROOT_PASSWORD: 62070040
+            MYSQL_DATABASE: concert
+            MYSQL_PASSWORD: 62070040
+    # frontend:
+    #     image: 62070040/majorfrontend
+    #     ports:
+    #         - 80:80

@@ -5,7 +5,7 @@
         <div class="row"> 
           <div class="col-2"> 
            <img  
-                src="../assets/dept.jpg" 
+                :src="concerts.concert.concert_image" 
               alt="" 
               height="170px"
               style="position: absolute; top: 30px; right: 0px;" 
@@ -77,6 +77,7 @@
 </template>
 <script>
 import axios from "@/plugins/axios";
+// import config from '../../config';
 export default {
   props: ["user"],
     data() {
@@ -92,7 +93,10 @@ export default {
   },
   methods:{
       pay(){
-        location.href = `http://localhost:8080/paymentform/${this.concerts.concert.concert_id}`
+        this.$router.push({path: `/paymentform/${this.concerts.concert.concert_id}`})
+        // location.href = `${config.frontEndURL}/paymentform/${this.concerts.concert.concert_id}`
+        // location.href = `/paymentform/${this.concerts.concert.concert_id}`
+
 
       },
       getConcert(id) {

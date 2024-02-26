@@ -68,7 +68,7 @@
           <div class="card" style="position:relative; border-style: hidden;">
             <router-link  :to="`/detail/${concert.concert_id}`">
             <div id="card-img-top"  style="height: 150px; width: auto; background-position: center;">
-                <img :to="`/detail/${concert.concert_id}`"  :src="imagePath(concert.file_path)" alt="image cap">
+                <img :to="`/detail/${concert.concert_id}`"  :src="imagePath(concert.concert_image)" alt="image cap">
             </div>
             </router-link>
             <div :to="`/detail/${concert.concert_id}`" class="card-body" style="min-height:200px; padding: 0.5rem;">
@@ -236,6 +236,7 @@
 
 <script>
 import axios from '@/plugins/axios';
+import config from '../../config';
 import {required, email, minLength, sameAs, maxLength} from "vuelidate/lib/validators";
 function complexPassword(value) {
   if (!(value.match(/[a-z]/) && value.match(/[A-Z]/) && value.match(/[0-9]/))) {
@@ -250,6 +251,7 @@ export default {
   props: ["user"],
   data() {
     return {
+      backEndURL: config.backEndURL,
       emailLogin: '',
       passLogin: '',
       concerts: [],
@@ -354,12 +356,21 @@ export default {
         });
     },
     imagePath(file_path) {
-      if (file_path){
-        return 'http://localhost:3000/' + file_path
-      } 
-      else {
-        return 'https://bulma.io/images/placeholders/640x360.png'
-      }
+      console.log(file_path);
+      return  file_path
+      // return 'data:image/jpeg;base64,' + btoa(new Uint8Array(file_path).reduce((data, byte) => data + String.fromCharCode(byte), ''));
+      // console.log(file_path)
+      // return new Promise((resolve) => {
+      //   const reader = new FileReader();
+      //   reader.onloadend = () => resolve(reader.result);
+      //   reader.readAsDataURL(file_path)
+      // })
+      // if (file_path){
+      //   return config.backEndURL + '/' + file_path
+      // } 
+      // else {
+      //   return 'https://bulma.io/images/placeholders/640x360.png'
+      // }
     },
     // shortContent(content) {
     //   if (content.length > 200) {

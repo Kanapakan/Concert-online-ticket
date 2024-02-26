@@ -20,7 +20,7 @@
                                 <!-- modal   -->
          <div class="col-lg-8 col-md-4 col-sm-5 pb-4">
           <div v-if="order.status == 'success'" class="card" style="background-color: #f4f4f4; float: left">
-            <img class="card-img-top" :src="'http://localhost:3000/' + order.file_path" alt="Card image cap"/>
+            <img class="card-img-top" :src="order.concert_image" alt="Card image cap"/>
             <div class="card-body">
               <p style="overflow: hidden; font-weight: 1000; height: 45px; font-size: 16px;" class="card-title">
                 {{ order.concert_title }}
@@ -315,6 +315,7 @@
 <script>
 import store from "@/vuex/store.js";
 import axios from '@/plugins/axios';
+import config from '../../config';
 import {
   required,
   minLength,
@@ -334,6 +335,7 @@ function phone(value) {
 export default {
   data() {
     return {
+      backEndURL: config.backEndURL,
       store,
       users: {},
       orders: {},

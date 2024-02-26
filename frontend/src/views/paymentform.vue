@@ -61,10 +61,10 @@
                                 <label class="custom-file-label" for="customFile">แนบหลักฐานการโอนเงิน</label>
                             </div>
                             <div v-if="image" class="pt-3 mx-auto">
-                                <div v-for="(img, index) in image" :key="img.id" class="">
+                                <div  class="">
                                     <div class="card" style="border-style: hidden;">
                                         <div class="text-center" id="card-img-top" >
-                                            <img :src="showSelectImage(img)" alt="Placeholder image" class="w-25"/>
+                                            <img :src="image" alt="Placeholder image" class="w-25"/>
                                         </div>
                                     </div>
                                     <div class="text-center mt-2">
@@ -98,19 +98,18 @@ function name (value){
 } 
 export default {
   props: ["user"],
-  mounted(){
-    this.getmyBooked(this.user.user_id)
-  },
   data() {
     return {
+      detailuser: '',
       fname: '',
       lname: '',
       date: null,
       time: null,
-      image: [],
-      mybook: {}
+      image: '',
+      mybook: '',
     };
   },
+  
   validations:{
     fname:{
         required: required,
@@ -132,19 +131,27 @@ export default {
     
   },
   methods: {
+    createBase64Image(fileObject){
+      const reader = new FileReader();
+      reader.onload = (e) => {
+      this.image = e.target.result;
+    };
+    reader.readAsDataURL(fileObject)
+    },
     getmyBooked(id){
       axios
         .get(`/mybook/${id}`)
         .then((response) => {
           this.mybook = response.data
+          console.log(this.mybook)
         })
         .catch((error) => {
           this.error = error.response.data.message;
         });
     },
     selectImage(event) {
-      this.image = event.target.files;
-      console.log(this.image[0].name)
+      const selected = event.target.files[0];
+      this.createBase64Image(selected)
     },
     showSelectImage(image) {
       // for preview only
@@ -163,9 +170,7 @@ export default {
       formData.append("fname", this.fname);
       formData.append("lname", this.lname);
       formData.append("pay_date", this.date + ' ' + this.time);
-      this.image.forEach((image) => {
-          formData.append("image", image);
-        });
+      formData.append("image", this.image);
 
       axios
         .post("/payment", formData)
@@ -176,6 +181,16 @@ export default {
         .catch((e) => console.log(e.response.data));
       }
     },
+  },
+  mounted(){
+   axios
+        .get(`/user/me`)
+        .then((response) => {
+          this.getmyBooked(response.data.user_id)
+        })
+        .catch((error) => {
+          this.error = error.response.data.message;
+        });
   },
 };
 </script>

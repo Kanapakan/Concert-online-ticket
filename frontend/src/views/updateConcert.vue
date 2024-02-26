@@ -150,14 +150,14 @@
           </div> -->
 
           <div v-if="images" class="columns is-multiline">
-        <div v-for="(image, index) in images" :key="image.id" class="column is-one-quarter">
+        <div  class="column is-one-quarter">
           <div class="card" style="border-style: hidden;">
             <div class="card-image">
               <div class="text-center" id="card-img-top">
-                <img :src="showSelectImage(image)" alt="Placeholder image" class="w-25"/>
+                <img :src="images" alt="Placeholder image" class="w-25"/>
               </div>
             </div>       
-           <button @click="deleteSelectImage(index)" class="btn btn-secondary" style="cursor: pointer; ">ยกเลิกการเลือก</button>
+           <button @click="deleteSelectImage()" class="btn btn-secondary" style="cursor: pointer; ">ยกเลิกการเลือก</button>
           </div>
         </div>
       </div>
@@ -167,15 +167,16 @@
       </div>
       
     <!-- show image -->
-      <div v-if="currentImage.length > 0" class="columns is-multiline">
-        <div v-for="(image) in currentImage" :key="image.id" class="column is-one-quarter">
+      <!-- <div v-if="currentImage.length > 0" class="columns is-multiline"> -->
+      <div v-if="currentImage != null" class="columns is-multiline">
+        <div class="column is-one-quarter">
           <div class="card" style="border-style: hidden;">
             <div class="card-image">
-              <div class="text-center" id="card-img-top">
-                <img :src="'http://localhost:3000/'+image.file_path" alt="Placeholder image" class="w-25"/>
+              <div class="text-center" id="card-img-top" >
+                <img :src="currentImage" alt="Placeholder image" class="w-25"/>
               </div>
             </div>       
-           <button @click="deleteCurrentImage(image.id)" class="btn btn-secondary" style="cursor: pointer; ">ยกเลิกการเลือก</button>
+           <button @click="deleteCurrentImage(concert.concert.concert_id)" class="btn btn-secondary" style="cursor: pointer; ">ยกเลิกการเลือก</button>
           </div>
         </div>
       </div>
@@ -189,6 +190,7 @@
 </template>
 <script>
 import axios from "@/plugins/axios";
+import config from '../../config';
 import {
   required,
   minLength,
@@ -230,10 +232,11 @@ export default {
   data() {
     
     return {
+      backEndURL: config.backEndURL,
       location_name: '',
       concert: {},
       error: null,
-      images: [], // array of image
+      images: null, // array of image
       titleCon: "",
       desConcert: "",
       seatPrice: "",
@@ -243,13 +246,14 @@ export default {
       showtimeCon: null,
       statusCon: "coming soon",
       location: null,
-      currentImage: []
+      currentImage: ''
     };
   },
   mounted(){
         axios
         .get(`/concerts/${this.$route.params.id}`)
         .then((res) => {
+          console.log(res.data)
             axios
                 .get(`/banking/${res.data.concert.concert_id}`)
                 .then((res) => {
@@ -261,7 +265,7 @@ export default {
                 console.log(e)
                 });
           this.concert = res.data
-          this.currentImage = res.data.images
+          this.currentImage = res.data.concert.concert_image
           this.location = res.data.concert.address_id
           this.titleCon = res.data.concert.concert_title
           this.desConcert = res.data.concert.concert_desc
@@ -306,6 +310,13 @@ export default {
   },
 
   methods: {
+    createBase64Image(fileObject){
+      const reader = new FileReader();
+      reader.onloadend = (e) => {
+        this.images = e.target.result;
+    };
+    reader.readAsDataURL(fileObject)
+    },
     getlocationname(){
         if(this.location == 1){
             this.location_name = 'โรงแรมคาร์ลตัน กรุงเทพฯ สุขุมวิท'
@@ -318,15 +329,17 @@ export default {
           }
       },
    selectImages(event) {
-      this.images = event.target.files;
+      // this.images = event.target.files;
+      const selected = event.target.files[0];
+      this.createBase64Image(selected)
+      console.log("choose")
     },
     showSelectImage(image) {
       return URL.createObjectURL(image);
     },
-    deleteSelectImage(index) {
-      console.log(this.images);
-      this.images = Array.from(this.images);
-      this.images.splice(index, 1);
+    deleteSelectImage() {
+      this.images = ''
+      location.reload();
     },
     updateMainImage() {
       console.log("ccc");
@@ -348,11 +361,12 @@ export default {
           .delete("/image/" + imageId)
           .then((response) => {
             console.log("delete image ", response);
+            location.reload();
           })
           .catch((e) => {
             console.log(e);
           });
-      location.reload();
+          
       }
     },
     submitCon() {
@@ -375,17 +389,21 @@ export default {
         formData.append("concert_id", this.concert.concert.concert_id);
         formData.append("fname", this.user.fname);
         formData.append("lname", this.user.lname);
+        formData.append("image", this.images);
 
        
-        this.images.forEach((image) => {
-          formData.append("myImage", image);
-        });
+        // this.images.forEach((image) => {
+        //   formData.append("myImage", image);
+        // });
 
     axios
         .put(`/concerts/${this.concert.concert.concert_id}`, formData)
         .then((res) => {
           console.log(res)
-          location.href = `http://localhost:8080/myconcert/${this.user.user_id}`
+          this.$router.push({path: `/myconcert/${this.user.user_id}`})
+          // location.href = `${config.frontEndURL}/myconcert/${this.user.user_id}`
+          // location.href = `/myconcert/${this.user.user_id}`
+
         })
         .catch((e) => console.log(e.response.data));
       }
